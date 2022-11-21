@@ -1,13 +1,21 @@
 const canvasSketch = require("canvas-sketch");
+const math = require("canvas-sketch-util/math");
+const random = require("canvas-sketch-util/random");
 
 const settings = {
   dimensions: [1080, 1080],
 };
 
-// To use degrees instead of radiants
-const degs = (deg) => {
-  return (deg / 180) * Math.PI;
-};
+// // FUNCTIONS
+// // Use degrees instead of radiants
+// const degs = (deg) => {
+//   return (deg / 180) * Math.PI;
+// };
+
+// // Return a random range between min and max
+// const range = (min, max) => {
+//   return Math.random() * (max - min) + min;
+// };
 
 const sketch = () => {
   return ({ context, width, height }) => {
@@ -23,11 +31,11 @@ const sketch = () => {
 
     let x, y;
 
-    const copies = 3;
+    const copies = 16;
     const radius = width * 0.3;
 
     for (let i = 0; i < copies; i++) {
-      const parts = degs(360 / copies);
+      const parts = math.degToRad(360 / copies);
       const angle = parts * i;
 
       x = centerX + radius * Math.sin(angle);
@@ -36,6 +44,7 @@ const sketch = () => {
       context.save(); //start of block context
       context.translate(x, y);
       context.rotate(-angle);
+      context.scale(random.range(1, 5), 1);
 
       context.beginPath();
       context.rect(-w * 0.5, -h * 0.5, w, h);
